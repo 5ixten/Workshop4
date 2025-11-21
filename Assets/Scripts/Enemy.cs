@@ -1,3 +1,5 @@
+using Unity.Mathematics;
+using System.Linq;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -12,6 +14,8 @@ public class Enemy : MonoBehaviour
     
     [SerializeField] private GameObject _bullet;
     [SerializeField] private float _bulletSpeed;
+    
+    [SerializeField] private AudioClip[] _shotSounds;
     
     void Start()
     {
@@ -30,6 +34,9 @@ public class Enemy : MonoBehaviour
             _lastShot = Time.time;
             Bullet newBullet = Instantiate(_bullet).GetComponent<Bullet>();
             newBullet.Initiate(transform.position, currentDir, _bulletSpeed);
+            SoundHandler.Instance.PlaySound(
+                _shotSounds[(int)UnityEngine.Random.Range(0, _shotSounds.Length)], transform.position, false
+            );
         }
         
         _spriteRenderer.flipX = currentDir.x < 0;
