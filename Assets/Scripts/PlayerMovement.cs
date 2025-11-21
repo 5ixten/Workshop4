@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     private bool _isGrounded;
     private float _lastJump;
     
+    [SerializeField] private Animator _animator;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private LayerMask _groundLayer;
     
     void Start()
@@ -30,11 +32,29 @@ public class PlayerMovement : MonoBehaviour
         }
         
         _rb.linearVelocity = newVelocity;
+        _spriteRenderer.flipX = _rb.linearVelocity.x < 0;
+        UpdateAnimator();
+    }
+
+    private void UpdateAnimator()
+    {
+        if (!_isGrounded)
+        {
+            _animator.SetTrigger("Fall");
+        } 
+        else if (Mathf.Abs(_rb.linearVelocity.x) > 1)
+        {
+            _animator.SetTrigger("Walk");
+        }
+        else
+        {
+            _animator.SetTrigger("Idle");
+        }
     }
 
     private void GroundCheck()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 5, _groundLayer);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.6f, _groundLayer);
 
         _isGrounded = hit.collider != null;
     }
