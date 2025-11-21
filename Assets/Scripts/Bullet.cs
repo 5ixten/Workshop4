@@ -42,7 +42,7 @@ public class Bullet : MonoBehaviour
         Player player = other.GetComponent<Player>();
         if (player)
         {
-            player.TakeDamage(1);
+            GameHandler.Instance.TakeDamage(1);
         }
         Destroy(gameObject);
     }
