@@ -4,11 +4,14 @@ public class Enemy : MonoBehaviour
 {
     private int _pointIndex = 0;
     private Vector3 _startPosition;
+    private float _lastShot;
     
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private Transform[] _walkPoints;
     [SerializeField] private int _walkSpeed;
     
+    [SerializeField] private GameObject _bullet;
+    [SerializeField] private float _bulletSpeed;
     
     void Start()
     {
@@ -21,6 +24,13 @@ public class Enemy : MonoBehaviour
 
         Vector3 startDir = (target.position - _startPosition).normalized;
         Vector3 currentDir = (target.position - transform.position).normalized;
+
+        if (Time.time - 2f >= _lastShot)
+        {
+            _lastShot = Time.time;
+            Bullet newBullet = Instantiate(_bullet).GetComponent<Bullet>();
+            newBullet.Initiate(transform.position, currentDir, _bulletSpeed);
+        }
         
         _spriteRenderer.flipX = currentDir.x < 0;
         
