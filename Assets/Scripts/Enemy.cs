@@ -5,6 +5,7 @@ public class Enemy : MonoBehaviour
     private int _pointIndex = 0;
     private Vector3 _startPosition;
     
+    [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private Transform[] _walkPoints;
     [SerializeField] private int _walkSpeed;
     
@@ -20,6 +21,8 @@ public class Enemy : MonoBehaviour
 
         Vector3 startDir = (target.position - _startPosition).normalized;
         Vector3 currentDir = (target.position - transform.position).normalized;
+        
+        _spriteRenderer.flipX = currentDir.x < 0;
         
         transform.position += currentDir * _walkSpeed * Time.deltaTime;
         float dot = Vector3.Dot(startDir, currentDir);
