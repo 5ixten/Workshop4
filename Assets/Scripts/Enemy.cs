@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour
         Vector3 startDir = (target.position - _startPosition).normalized;
         Vector3 currentDir = (target.position - transform.position).normalized;
 
-        if (Time.time - 0.5f >= _lastShot)
+        if (Time.time - 1.5f >= _lastShot)
         {
             _lastShot = Time.time;
             Bullet newBullet = Instantiate(_bullet).GetComponent<Bullet>();

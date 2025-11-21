@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Door : MonoBehaviour
@@ -19,8 +20,8 @@ public class Door : MonoBehaviour
     {
         _isOpen = true;
     }
-    
-    private void OnCollisionEnter2D(Collision2D other)
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.GetComponent<Player>() && _isOpen && !_entered)
         {

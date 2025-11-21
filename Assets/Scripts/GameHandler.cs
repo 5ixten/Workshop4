@@ -4,6 +4,8 @@ using TMPro;
 
 public class GameHandler : MonoBehaviour
 {
+    private float _timeLeft;
+    
     [SerializeField] private TextMeshProUGUI _infoText;
     
     public static GameHandler Instance { get; private set; }
@@ -28,11 +30,28 @@ public class GameHandler : MonoBehaviour
     {
         Keys = 0;
         Health = 3;
+        _timeLeft = 15;
     }
 
     private void Update()
     {
-        _infoText.text = "Keys: " + Keys + "\n" + "Health: " + Health;
+        _timeLeft -= Time.deltaTime;
+        _infoText.text = "Keys: " + Keys + "\n" + "Health: " + Health + "\n" + "Time Left: " + _timeLeft.ToString("0.##");
+
+        if (_timeLeft <= 0)
+        {
+            GameOver();
+        }
+    }
+
+    public void GameOver()
+    {
+        SceneHandler.Instance.LoadScene("LoseScene");
+    }
+
+    public void Win()
+    {
+        SceneHandler.Instance.LoadScene("WinScene");
     }
 
     public void TakeKey()
@@ -46,7 +65,7 @@ public class GameHandler : MonoBehaviour
 
         if (Health <= 0)
         {
-            SceneHandler.Instance.LoadScene("GameScene");
+            GameOver();
         }
     }
 }
