@@ -36,4 +36,14 @@ public class Bullet : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Player player = other.GetComponent<Player>();
+        if (player)
+        {
+            player.TakeDamage(1);
+        }
+        Destroy(gameObject);
+    }
 }
